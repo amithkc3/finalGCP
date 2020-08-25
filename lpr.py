@@ -186,11 +186,11 @@ class CR:
           charList.append(self.predict_char_saved(char))
 
     plate_str = ''.join(charList)
-    registered_plates = self.get_registered_plates_from_file()
+    registered_plates = self.get_registered_plates()
     # print(plate_str)
-    # print(registered_plates)
+    print(registered_plates)
     # print(get_close_matches(plate_str,registered_plates,cutoff=0.6))
-    plates = get_close_matches(plate_str,registered_plates,cutoff=0.7)
+    plates = get_close_matches(plate_str,registered_plates,cutoff=0.6)
     # print(plates)
     return plates
 ###-------------------------------------------------CR------------------------------------------------
