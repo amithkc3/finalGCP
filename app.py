@@ -10,6 +10,8 @@ import requests
 platedetector = lpr.LPR(modelConfiguration="./WEIGHTS/darknet-yolov3.cfg",modelWeights = "./WEIGHTS/lapi.weights")
 charRecognizer = lpr.CR(modelFile='./WEIGHTS/character_recognition.h5')
 
+parkingSpaceId = '002'
+
 app = Flask(__name__)
 print("=======================\nSERVER INITIATED\n=======================\n")
 
@@ -29,7 +31,7 @@ def get_plate_checkin():
 			plate_chars = charRecognizer.opencvReadPlate(img[plate_coor[0][0]:plate_coor[0][1],plate_coor[0][2]:plate_coor[0][3]])
 			print(plate_chars)
 			if(len(plate_chars) > 0):
-				plate_info = {"licenseNo" :plate_chars[0],"parking": '001'}
+				plate_info = {"licenseNo" :plate_chars[0],"parking": parkingSpaceId}
 				headers = {'Content-type': 'application/json'}
 				firebase_url_checkin = 'https://us-central1-final-year-project-d4c31.cloudfunctions.net/vehicleCheckIn'
 				# requests.post(firebase_url_checkin,json=json.dumps(plate_info))
@@ -54,7 +56,7 @@ def get_plate_checkout():
 			plate_chars = charRecognizer.opencvReadPlate(img[plate_coor[0][0]:plate_coor[0][1],plate_coor[0][2]:plate_coor[0][3]])
 			print(plate_chars)
 			if(len(plate_chars) > 0):
-				plate_info = {"licenseNo" :plate_chars[0],"parking": '001'}
+				plate_info = {"licenseNo" :plate_chars[0],"parking": parkingSpaceId}
 				headers = {'Content-type': 'application/json'}
 				firebase_url_checkout = 'https://us-central1-final-year-project-d4c31.cloudfunctions.net/vehicleCheckOut'
 				response = requests.post(firebase_url_checkout,data=json.dumps(plate_info),headers=headers)
